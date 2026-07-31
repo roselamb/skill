@@ -1,0 +1,4 @@
+interface:
+  display_name: "便携桌宠生成器"
+  short_description: "把参考图精简制作成 Windows 单文件便携桌宠应用"
+  default_prompt: "Use $build-portable-desktop-pet to turn this reference image into a portable Windows desktop pet."
