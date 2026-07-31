@@ -29,12 +29,13 @@ if find "$template" -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.webp' 
   echo "template contains character or binary artifacts" >&2
   exit 1
 fi
-if rg -n '蓝团|cat-photo|character-sheet' "$template"; then
+if rg -n 'example-character-sentinel|cat-photo|character-sheet' "$template"; then
   echo "template contains project-specific identity" >&2
   exit 1
 fi
-if rg -n '/Users/quinnpan' "$template"; then
-  echo "template contains a personal absolute path" >&2
+external_path_sentinel="/example/external-""fixture"
+if rg -n "$external_path_sentinel" "$template"; then
+  echo "template contains an external absolute path" >&2
   exit 1
 fi
 
@@ -42,7 +43,7 @@ test_root=$(mktemp -d "${TMPDIR:-/private/tmp}/portable-pet-skill-test.XXXXXX")
 trap 'rm -rf "$test_root"' EXIT HUP INT TERM
 
 forbidden_worktree=".work""trees"
-forbidden_fixture="/Users/quinnpan/Documents/""Codex"
+forbidden_fixture="$external_path_sentinel"
 if rg -n "$forbidden_worktree|$forbidden_fixture" "$0"; then
   echo "self-test contains an external fixture path" >&2
   exit 1
@@ -84,7 +85,7 @@ fi
 test -f "$test_root/project/assets/runtime/spritesheet.png"
 test -f "$test_root/project/assets/runtime/app-icon.png"
 rg -q '测试宠物桌宠' "$test_root/project/internal/app/app_windows.go"
-! rg -n '__PET_TITLE__|__PET_EXE__|蓝团' "$test_root/project"
+! rg -n '__PET_TITLE__|__PET_EXE__|example-character-sentinel' "$test_root/project"
 
 special_project="$test_root/special-project"
 "$skill_dir/scripts/scaffold_pet.py" \
