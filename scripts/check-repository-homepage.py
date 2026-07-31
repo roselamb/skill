@@ -19,6 +19,9 @@ def main() -> None:
         "README example": asset.as_posix(),
         "license label": "MIT License",
         "real-machine boundary": "Real-machine validation on Windows 10/11 remains separate",
+        "clone command": "git clone https://github.com/roselamb/skill.git",
+        "install location": "~/.codex/skills",
+        "main branch invocation": "installed from `main`",
     }
     missing = [label for label, needle in required.items() if needle not in text]
     assert not missing, f"README is missing required content: {', '.join(missing)}"

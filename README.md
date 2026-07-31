@@ -24,8 +24,15 @@ The illustration is intentionally abstract. This repository does **not** bundle 
 
 ## Quick Start
 
-1. Clone this repository and place `build-portable-desktop-pet/` in your local Codex Skills directory.
-2. In Codex, provide your image references and ask to use `$build-portable-desktop-pet`.
+1. Install the Skill from the repository's `main` branch:
+
+   ```bash
+   git clone https://github.com/roselamb/skill.git
+   mkdir -p ~/.codex/skills
+   cp -R skill/build-portable-desktop-pet ~/.codex/skills/
+   ```
+
+2. After the Skill is installed from `main`, in Codex provide your image references and ask to use `$build-portable-desktop-pet`.
 3. The Skill follows this delivery chain:
 
    ```text
