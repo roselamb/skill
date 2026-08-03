@@ -41,6 +41,23 @@ func (m alphaMask) Hit(x, y int) bool {
 	return index >= 0 && index < len(m.Pixels) && m.Pixels[index] >= hitAlphaThreshold
 }
 
+// HitWithin treats a small neighborhood around the sprite as clickable. This
+// absorbs anti-aliased edge pixels and DPI rounding without making the whole
+// transparent window intercept clicks.
+func (m alphaMask) HitWithin(x, y, radius int) bool {
+	if radius <= 0 {
+		return m.Hit(x, y)
+	}
+	for yy := y - radius; yy <= y+radius; yy++ {
+		for xx := x - radius; xx <= x+radius; xx++ {
+			if m.Hit(xx, yy) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func prepareFrame(src image.Image) preparedFrame {
 	if src == nil {
 		return preparedFrame{}

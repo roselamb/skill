@@ -446,7 +446,7 @@ func (w *Window) hit(screenX, screenY int) bool {
 	}
 	w.mu.RLock()
 	defer w.mu.RUnlock()
-	return w.frame.Mask.Hit(screenX-int(bounds.Left), screenY-int(bounds.Top))
+	return w.frame.Mask.HitWithin(screenX-int(bounds.Left), screenY-int(bounds.Top), 6)
 }
 
 func (w *Window) beginPotentialDrag() {

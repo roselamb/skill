@@ -25,6 +25,8 @@ Inspect every reference. Treat `identity-lock.md` as a required visual deliverab
 
 Generate one transparent 8-column × 11-row atlas matching the bundled runtime contract, including independent directional movement and directional-look rows. Cover the default runtime states: Idle, Walk, Run, Sleep, Think, Happy, Drag. Generate one app icon. Check identity, atlas dimensions and cells, alpha edges, and directional markings.
 
+The atlas row contract is fixed and must be checked by opening extracted cells, not inferred from the filename: row 0 = front-facing Idle expressions; rows 1/2 = authored WalkRight/WalkLeft; row 3 = Happy; row 4 = Jump; row 5 = Error; row 6 = Think; rows 7/8 are reserved for future authored movement variants; rows 9/10 = directional-look cells used while Idle. Every row keeps the same character identity, and a row with a back view or a different action must not be substituted for another state.
+
 Keep the runtime reuse explicit: Run reuses the directional Walk rows at a faster rate; Sleep reuses Idle at a slower rate; Drag holds the first Idle frame.
 
 Do not mandate a six-view Character Sheet, an eight-expression board, multi-round blind review, or a separate atlas per action.
@@ -37,13 +39,13 @@ Run:
 scripts/scaffold_pet.py --name NAME --atlas ATLAS --icon ICON --output-dir PROJECT
 ```
 
-Use the scaffolded transparent, borderless, always-on-top Win32 GUI runtime. Bind interactions exactly: single click -> Happy; double click -> Sleep/Wake; left-drag -> Drag/move; right click -> menu. Run its tests, then its Windows x64 build script.
+Use the scaffolded transparent, borderless, always-on-top Win32 GUI runtime. Bind interactions exactly: single click -> Happy; double click -> Sleep/Wake; left-drag -> Drag/move; right click -> menu. The runtime uses a small alpha-hit slop so anti-aliased sprite edges remain clickable without making the entire transparent window intercept clicks. Run its tests, then its Windows x64 build script.
 
 Build on a Darwin or Linux build host with Python 3 with Pillow; the toolchain fetcher rejects other hosts clearly.
 
 ## Verification
 
-Run `scripts/verify-delivery.sh EXE ABSOLUTE_PROJECT_ROOT`. Require a Windows x64 GUI PE (`PE32+`), `.rsrc`, allowed system DLL imports, no leaked absolute project path, and printed SHA-256. Keep Windows 10/11 real-machine interaction verification explicitly separate from cross-build/static verification.
+Run `scripts/verify-delivery.sh EXE ABSOLUTE_PROJECT_ROOT`. Require a Windows x64 GUI PE (`PE32+`), `.rsrc`, allowed system DLL imports, no leaked absolute project path, and printed SHA-256. Before building, visually inspect representative extracted cells from rows 0, 1, 2, 3, 6, 9, and 10 to confirm the front/side/look contract. Keep Windows 10/11 real-machine interaction verification explicitly separate from cross-build/static verification.
 
 ## Escalation
 
