@@ -54,6 +54,16 @@ func TestAlphaMaskHitUsesBoundsAndThreshold(t *testing.T) {
 	}
 }
 
+func TestAlphaMaskHitWithinAddsForgivingClickSlop(t *testing.T) {
+	mask := alphaMask{Width: 3, Height: 1, Stride: 3, Pixels: []byte{0, 0, 255}}
+	if !mask.HitWithin(1, 0, 1) {
+		t.Fatal("one-pixel click slop should reach the visible sprite edge")
+	}
+	if mask.HitWithin(0, 0, 0) {
+		t.Fatal("zero slop should preserve exact alpha hit behavior")
+	}
+}
+
 func TestPreparedFrameCarriesMatchingAlphaMask(t *testing.T) {
 	src := image.NewAlpha(image.Rect(10, 10, 12, 11))
 	src.SetAlpha(10, 10, color.Alpha{A: 15})
